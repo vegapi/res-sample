@@ -1,7 +1,7 @@
 module.exports = {
 	"_data": {
-		"statusCode": 404,
-		"restCode": "NotFound",
-		"message": "Resource 3voj529d was not found"
+		"errorCode": 404,
+		"errorMessage": "Resource was not found"
+		"_resource": "3voj529d"
 		}
 	};

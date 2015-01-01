@@ -4,7 +4,7 @@ module.exports = {
 		"_name": "FF 1233-579/14",
 		"_description": "",
 		"_documentType": "SupplierInvoice",
-		"_internalNumber": "FF 2014/227",
+		"_externalNumber": "FF 2014/227",
 		"_date": "2014-07-21",
 		"_entity": {
 			"_href": "/5v4080jn/entities/ygo41pow",
@@ -28,6 +28,7 @@ module.exports = {
 				"_netAmount": {"GBP": 1425.00, "EUR": 1966.50},
 				"_vatRate": "Standard",
 				"_vatAmount": {"GBP": 327.75, "EUR": 429.30}
+				} 
 			},
 			{
 				"_itemType": "Goods",
@@ -40,6 +41,7 @@ module.exports = {
 				"_netAmount": {"GBP": 1425.00, "EUR": 1966.50},
 				"_vatRate": "Standard",
 				"_vatAmount": {"GBP": 327.75, "EUR": 429.30}
+				}
 			},
 			{
 				"_description": "Shipping",
@@ -49,6 +51,7 @@ module.exports = {
 				"_netAmount": {"GBP": 15.00, "EUR": 20.70},
 				"_vatRate": "Standard",
 				"_vatAmount": {"GBP": 3.28, "EUR": 4.29}
+				}
 			}
 		],
 		"_status": "active",

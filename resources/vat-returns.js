@@ -6,7 +6,6 @@ module.exports = {
 		}
 	],
 	"_links": {
-		"_self": "/5v4080jn/vat-returns",
-		"_vatReports": "/5v4080jn/vat-reports"
+		"_self": "/5v4080jn/vat-returns"
 	}
 };

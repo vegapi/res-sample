@@ -3,16 +3,10 @@ module.exports = {
 		"_id": "pv952aa1",
 		"_name": "MT-2014/047",
 		"_description": "Cheque deposit 21 March 2014",
-		"_internalNumber": "MT - 2014/047",
+		"_externalNumber": "MT - 2014/047",
 		"_date": "2014-03-21",
-		"_accountFrom":	{
-			"_name": "Cashier HO",
-			"_href": "/5v4080jn/cash-accounts/hyd920tr"
-		},
-		"_accountTo": {
-			"_name": "BPI-DO",
-			"_href": "/5v4080jn/cash-accounts/xok8jdo3"
-		},
+		"_cashAccountFrom":	"Cashier HO",
+		"_cashAccountTo": "BPI-DO",
 		"_cashInstruments": [
 			{
 				"_name": "Cheque",
@@ -29,7 +23,6 @@ module.exports = {
 	},
 	"_links": {
 		"_self": "/5v4080jn/cash-transactions/pv952aa1",
-		"_accounts": "/5v4080jn/cash-accounts",
 		"_transactions": "/5v4080jn/cash-transactions"
 	}
 };

@@ -6,10 +6,11 @@ module.exports = {
 		"_addresses": {
 			"_main": "Some Street, 125, Room 213\nSome Town\n1234-056 Some Location\nPortugal"
 		},
-		"_countryCode": "PT",
+		"_country": "PT",
 		"_currency": "EUR",
 		"_taxNumber": "ABC123456789",
 		"_earliestVatDate": "20140630",
+		"_vatReturnFrequency": "Quarter",
 		"_earliestAccountingDate": "20140101",
 		"_lastModifiedDate": "2014-07-21T10:37:45Z",
 		"_status": "active"
@@ -20,9 +21,9 @@ module.exports = {
 		"_items": "/wrgj410r/items",
 		"_documents": "/wrgj410r/documents",
 		"_payments": "/wrgj410r/payments",
-		"_accounts": "/wrgj410r/cash-accounts",
+		"_cashTransactions": "/wrgj410r/cash-transactions",
 		"_vat": "/wrgj410r/vat",
-		"_fiscalYears": "/wrgj410r/fiscal-years",
-		"_settings": "/wrgj410r/accounting-settings"
+		"_fiscalYearEnds": "/wrgj410r/fiscal-year-ends",
+		"_settings": "/wrgj410r/settings"
 	}
 };

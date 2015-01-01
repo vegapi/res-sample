@@ -3,7 +3,7 @@ module.exports = {
 		{
 			"_name": "CTB 2014/012",
 			"_href": "/5v4080jn/accounting-batches/e0g8gvow",
-			"_error": {"_code": "1234", "_message": "Some error", "_entries": 1}
+			"_error": {"_code": "1234", "_message": "Some error", "_entry": 1}
 		},
 		{
 			"_name": "FC 2014/247",
@@ -12,6 +12,6 @@ module.exports = {
 		}
 	],
 	"_links": {
-		"_self": "/5v4080jn/accounting-errors?fiscal-years=FY2014"
+		"_self": "/5v4080jn/accounting-errors?fiscal-year-name=FY2014"
 	}
 };

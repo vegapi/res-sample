@@ -1,7 +1,7 @@
 module.exports = {
 	"_data": {
-		"statusCode": "401",
-		"restCode": "Unauthorized",
-		"message": "Your application needs to be authenticated to access this API"
+		"errorCode": "401",
+		"errorMessage": "Your application needs to be authenticated to access this API"
+		"_href": "https://docs.vegapi.org/overview#security"
 	}
 };

@@ -3,7 +3,7 @@ module.exports = {
 		"_id": "ygo41pow",
 		"_shortName": "A Supplier",
 		"_fullName": "A Supplier, LLC",
-		"_countryCode": "GB",
+		"_country": "GB",
 		"_taxNumber": "ABC123456789",
 		"_currency": "GBP",
 		"_tags": ["Wool"],

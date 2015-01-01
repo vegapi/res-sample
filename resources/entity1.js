@@ -3,7 +3,7 @@ module.exports = {
 		"_id": "4xrzy0v5",
 		"_name": "A Customer",
 		"_description": "A Customer, LLC",
-		"_countryCode": "GB",
+		"_country": "GB",
 		"_taxNumber": "ABC123456789",
 		"_currency": "GBP",
 		"_tags": ["Grande Retalho"],

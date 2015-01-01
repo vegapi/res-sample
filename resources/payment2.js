@@ -2,8 +2,8 @@ module.exports = {
 	"_data": {
 		"_id": "j6vnwz09",
 		"_name": "PF 2014/95",
-		"_entityType": "Supplier",
-		"_internalNumber": "PF - 2014/95",
+		"_paymentType": "Sent",
+		"_externalNumber": "PF - 2014/95",
 		"_date": "2014-07-21",
 		"_entity": {
 			"_name": "A Supplier",
@@ -14,18 +14,17 @@ module.exports = {
 			"_href": "/5v4080jn/accounts/xok8jdo3"
 		},
 		"_amount": {"GBP": 6456.90, "EUR": 8910.52},
-		"_cashInstruments": [
+		"_paymentInstruments": [
 			{
 				"_name": "BankTranfer",
-				"bank": "BBPIPTPL",
-				"number": "1234567890123",
 				"_amount": {"GBP": 6456.09}
 			}
 		],
 		"_applyTo": [
 			{
 				"_name": "FF 1236-579/14",
-				"_href": "/5v4080jn/documents/ero6j1rk"
+				"_href": "/5v4080jn/documents/ero6j1rk",
+				"_amount": {"GBP": 6456.90}
 			}
 		],
 		"_status": "active",

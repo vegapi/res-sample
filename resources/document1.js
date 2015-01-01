@@ -4,7 +4,7 @@ module.exports = {
 		"_name": "EC 2014/135",
 		"_description": "",
 		"_documentType": "CustomerOrder",
-		"_internalNumber": "EC - 2014/135",
+		"_externalNumber": "EC - 2014/135",
 		"_date": "2014-07-21",
 		"_relatedDocuments": [],
 		"_entity": {
@@ -24,7 +24,7 @@ module.exports = {
 				"_quantity": {"Cartons": 10},
 				"_unitPrice": {"GBP": 3},
 				"_grossAmount": {"GBP": 1500.00, "EUR": 2070.00},
-				"_discount": {"GBP": 75.00, "EUR": 103.50},
+				"_discountAmount": {"GBP": 75.00, "EUR": 103.50},
 				"_netAmount": {"GBP": 1425.00, "EUR": 1966.50}
 			},
 			{

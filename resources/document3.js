@@ -4,7 +4,7 @@ module.exports = {
 		"_name": "FC 2014/227",
 		"_description": "",
 		"_documentType": "CustomerInvoice",
-		"_internalNumber": "FC - 2014/227",
+		"_externalNumber": "FC - 2014/227",
 		"_date": "2014-07-21",
 		"_relatedDocuments": [
 			{
@@ -35,8 +35,9 @@ module.exports = {
 				"_grossAmount": {"GBP": 1500.00, "EUR": 2070.00},
 				"_discountAmount": {"GBP": 75.00, "EUR": 103.50},
 				"_netAmount": {"GBP": 1425.00, "EUR": 1966.50},
-				"_vatRate": "Standard",
+				"_vatRate": "Standard", 
 				"_vatAmount": {"GBP": 327.75, "EUR": 429.30}
+				}
 			},
 			{
 				"_description": "Shipping",
@@ -46,6 +47,7 @@ module.exports = {
 				"_netAmount": {"GBP": 15.00, "EUR": 20.70},
 				"_vatRate": "Standard",
 				"_vatAmount": {"GBP": 3.28, "EUR": 4.29}
+				},
 			}
 		],
 		"_status": "active",

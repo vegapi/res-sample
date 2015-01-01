@@ -1,10 +1,9 @@
 module.exports = {
 	"_data": {
-		"_id": "a509ftan",
-		"_name": "January 2014",
-		"_description": "My Company - Income Statement for January 2014",
+		"_startDate": "20140101",
+		"_endDate": "20140131",
+		"_title": "My Company - Income Statement for January 2014",
 		"_reportDate": "20140219",
-		"_reportUnit": "Eur",
 		"_lines": [
 			{
 				"_sequence": 1,
@@ -14,11 +13,9 @@ module.exports = {
 				"_monthlyTurnoverDebit": 5000.00,
 				"_monthlyTurnoverCredit": 2000.00,
 				"_closingBalanceDebit": 15000.00,
-				"closingBalanceCredit": 12000.00
+				"_closingBalanceCredit": 12000.00
 			}
 		]
 	},
-	"_links": {
-		"_self": "/5v4080jn/income-statements/a509ftan"
-	}
+	"_links": {}
 };

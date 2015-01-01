@@ -4,7 +4,7 @@ module.exports = {
 		"_name": "RC 2014/235",
 		"_description": "",
 		"_documentType": "CustomerDelivery",
-		"_internalNumber": "RC - 2014/235",
+		"_externalNumber": "RC - 2014/235",
 		"_date": "2014-07-21",
 		"_relatedDocuments": [
 			{
