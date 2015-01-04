@@ -3,6 +3,8 @@ module.exports = {
 		"_id": "aj680st5",
 		"_name": "VAT Return 2014-1",
 		"_description": "VAT Return Jan 2014",
+		"_startDate": "20140101",
+		"_endDate": "20140131",
 		"_returnDate": "20140415",
 		"_returnType": "Month",
 		"_returnTotals": {
