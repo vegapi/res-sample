@@ -10,7 +10,6 @@ module.exports = {
 		"_currency": "EUR",
 		"_taxNumber": "ABC123456789",
 		"_earliestVatDate": "20140630",
-		"_vatReturnFrequency": "Month",
 		"_earliestAccountingDate": "20140101",
 		"_lastModifiedDate": "2014-07-21T10:37:45Z",
 		"_status": "active"
