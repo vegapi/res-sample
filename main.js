@@ -1,5 +1,5 @@
 // Copyright (c) 2012 Mark Cavage. All rights reserved.
-// Copyright (c) 2014 Pedro Vieira.
+// Copyright (c) 2015 Pedro Vieira.
 
 var fs = require('fs');
 var path = require('path');
