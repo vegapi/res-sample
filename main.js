@@ -15,7 +15,7 @@ var vegapi = require('./lib');
 
 ///--- Globals
 
-var NAME = 'VEGAPI';
+var NAME = 'sample';
 
 // In true UNIX fashion, debug messages go to stderr, and audit records go
 // to stdout, so you can split them as you like in the shell
