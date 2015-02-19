@@ -15,7 +15,7 @@ module.exports = {
 			},
 		"_currency": "GBP",
 		"_amount": {"GBP": 6456.90, "EUR": 8910.52},
-		"_paymentInstruments": [
+		"_instruments": [
 			{
 				"_name": "Cash",
 				"_amount": {"GBP": 456.90}

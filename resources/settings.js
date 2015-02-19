@@ -7,7 +7,7 @@ module.exports = {
 		"_fiscalYear": "/5v4080jn/settings/fiscal-years",
 		"_itemType": "/5v4080jn/settings/item-types",
 		"_ledgerAccount": "/5v4080jn/settings/ledger-accounts",
-		"_paymentInstrument": "/5v4080jn/settings/payment-instruments"
+		"_paymentInstrument": "/5v4080jn/settings/instruments"
 		"_paymentType": "5v4080jn/settings/payment-types"
 		"_vatClass": "/5v4080jn/settings/vat-classes",
 		"_vatRate": "/5v4080jn/settings/vat-rates"

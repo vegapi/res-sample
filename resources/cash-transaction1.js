@@ -7,7 +7,7 @@ module.exports = {
 		"_date": "2014-03-21",
 		"_cashAccountFrom":	"Cashier HO",
 		"_cashAccountTo": "BPI-DO",
-		"_paymentInstruments": [
+		"_instruments": [
 			{
 				"_name": "Cheque",
 				"_amount": {"GBP": 6000.00}

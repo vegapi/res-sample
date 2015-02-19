@@ -14,7 +14,7 @@ module.exports = {
 			"_href": "/5v4080jn/accounts/xok8jdo3"
 		},
 		"_amount": {"GBP": 6456.90, "EUR": 8910.52},
-		"_paymentInstruments": [
+		"_instruments": [
 			{
 				"_name": "BankTranfer",
 				"_amount": {"GBP": 6456.09}
