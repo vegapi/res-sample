@@ -119,7 +119,7 @@ function usage(msg) {
     LOG.debug(options, 'command line arguments parsed');
 
     // First setup our 'database'
-    var dir = path.normalize('/tmp/' + (options.application || 'localhost'));
+    var dir = path.join('/tmp', (options.application || 'localhost'), '/');
     try {
         fs.mkdirSync(dir);
     } catch (e) {
