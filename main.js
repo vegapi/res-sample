@@ -15,7 +15,7 @@ var vegapi = require('./lib');
 
 ///--- Globals
 
-var NAME = 'sample';
+var NAME = 'vegapi';
 
 // In true UNIX fashion, debug messages go to stderr, and audit records go
 // to stdout, so you can split them as you like in the shell
@@ -61,12 +61,12 @@ var LOG = bunyan.createLogger({
 function parseOptions() {
     var option;
     var opts = {};
-    var parser = new getopt.BasicParser('hvd:p:u:z:', process.argv);
+    var parser = new getopt.BasicParser('hva:p:k:', process.argv);
 
     while ((option = parser.getopt()) !== undefined) {
         switch (option.option) {
-            case 'd':
-                opts.directory = path.normalize(option.optarg);
+            case 'a':
+                opts.application = option.optarg;
                 break;
 
             case 'h':
@@ -77,10 +77,6 @@ function parseOptions() {
                 opts.port = parseInt(option.optarg, 10);
                 break;
 
-            case 'u':
-                opts.user = option.optarg;
-                break;
-
             case 'v':
                 // Allows us to set -vvv -> this little hackery
                 // just ensures that we're never < TRACE
@@ -89,8 +85,8 @@ function parseOptions() {
                     LOG = LOG.child({src: true});
                 break;
 
-            case 'z':
-                opts.password = option.optarg;
+            case 'k':
+                opts.key = option.optarg;
                 break;
 
             default:
@@ -109,7 +105,7 @@ function usage(msg) {
 
     var str = 'usage: ' +
         NAME +
-        ' [-v] [-d dir] [-p port] [-u user] [-z password]';
+        ' [-v] [-a application] [-k key] [-p port]';
     console.error(str);
     process.exit(msg ? 1 : 0);
 }
@@ -123,7 +119,7 @@ function usage(msg) {
     LOG.debug(options, 'command line arguments parsed');
 
     // First setup our 'database'
-    var dir = path.normalize((options.directory || '/tmp') + '/vegapi');
+    var dir = path.normalize('/tmp/' + (options.application || 'localhost'));
     try {
         fs.mkdirSync(dir);
     } catch (e) {
@@ -133,13 +129,16 @@ function usage(msg) {
         }
     }
 
-    var server = vegapi.createServer({
-        directory: dir,
-        log: LOG
-    });
+    options.directory = dir;
+    options.log = LOG;
+    options.port = options.port || 8080;
+    NAME = options.application || NAME;
+    LOG.name = NAME;
+
+    var server = vegapi.createServer(options);
 
     // At last, let's rock and roll
-    server.listen((options.port || 8080), function onListening() {
-        LOG.info('listening at %s', server.url);
+    server.listen(options.port, function onListening() {
+        LOG.info('API %s listening at %s', NAME, server.url);
     });
 })();
