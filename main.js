@@ -20,28 +20,28 @@ var NAME = 'vegapi';
 // In true UNIX fashion, debug messages go to stderr, and audit records go
 // to stdout, so you can split them as you like in the shell
 var LOG = bunyan.createLogger({
-    name: NAME,
-    streams: [
-        {
-            level: (process.env.LOG_LEVEL || 'info'),
-            stream: process.stderr
-        },
-        {
-            // This ensures that if we get a WARN or above all debug records
-            // related to that request are spewed to stderr - makes it nice
-            // filter out debug messages in prod, but still dump on user
-            // errors so you can debug problems
-            level: 'debug',
-            type: 'raw',
-            stream: new restify.bunyan.RequestCaptureStream({
-                level: bunyan.WARN,
-                maxRecords: 100,
-                maxRequestIds: 1000,
-                stream: process.stderr
-            })
-        }
-    ],
-    serializers: restify.bunyan.serializers
+  name: NAME,
+  streams: [
+    {
+      level: (process.env.LOG_LEVEL || 'info'),
+      stream: process.stderr
+    },
+    {
+      // This ensures that if we get a WARN or above all debug records
+      // related to that request are spewed to stderr - makes it nice
+      // filter out debug messages in prod, but still dump on user
+      // errors so you can debug problems
+      level: 'debug',
+      type: 'raw',
+      stream: new restify.bunyan.RequestCaptureStream({
+        level: bunyan.WARN,
+        maxRecords: 100,
+        maxRequestIds: 1000,
+        stream: process.stderr
+      })
+    }
+  ],
+  serializers: restify.bunyan.serializers
 });
 
 
@@ -59,86 +59,89 @@ var LOG = bunyan.createLogger({
  * And the log level will be set to TRACE.
  */
 function parseOptions() {
-    var option;
-    var opts = {};
-    var parser = new getopt.BasicParser('hva:p:k:', process.argv);
+  var option;
+  var opts = {};
+  var parser = new getopt.BasicParser('hva:p:k:', process.argv);
 
-    while ((option = parser.getopt()) !== undefined) {
-        switch (option.option) {
-            case 'a':
-                opts.application = option.optarg;
-                break;
+  while ((option = parser.getopt()) !== undefined) {
+    switch (option.option) {
+      case 'a':
+        opts.application = option.optarg;
+        break;
 
-            case 'h':
-                usage();
-                break;
+      case 'h':
+        usage();
+        break;
 
-            case 'p':
-                opts.port = parseInt(option.optarg, 10);
-                break;
+      case 'p':
+        opts.port = parseInt(option.optarg, 10);
+        break;
 
-            case 'v':
-                // Allows us to set -vvv -> this little hackery
-                // just ensures that we're never < TRACE
-                LOG.level(Math.max(bunyan.TRACE, (LOG.level() - 10)));
-                if (LOG.level() <= bunyan.DEBUG)
-                    LOG = LOG.child({src: true});
-                break;
+      case 'v':
+        // Allows us to set -vvv -> this little hackery
+        // just ensures that we're never < TRACE
+        LOG.level(Math.max(bunyan.TRACE, (LOG.level() - 10)));
+        if (LOG.level() <= bunyan.DEBUG) 
+          LOG = LOG.child({src: true});
+        break;
 
-            case 'k':
-                opts.key = option.optarg;
-                break;
+      case 'k':
+        opts.key = option.optarg;
+        break;
 
-            default:
-                usage('invalid option: ' + option.option);
-                break;
-        }
-    }
+      default:
+        usage('invalid option: ' + option.option);
+        break;
+      }
+  }
 
-    return (opts);
+  return (opts);
 }
 
 
 function usage(msg) {
-    if (msg)
-        console.error(msg);
+  if (msg) {
+    console.error(msg);
+  }
 
-    var str = 'usage: ' +
-        NAME +
-        ' [-v] [-a application] [-k key] [-p port]';
-    console.error(str);
-    process.exit(msg ? 1 : 0);
+  var str = 'usage: ' +
+    NAME +
+    ' [-v] [-a application] [-k key] [-p port]';
+  console.error(str);
+  process.exit(msg ? 1 : 0);
 }
 
 
 ///--- Mainline
 
 (function main() {
-    var options = parseOptions();
+  var options = parseOptions();
 
-    LOG.debug(options, 'command line arguments parsed');
+  LOG.debug(options, 'command line arguments parsed');
 
-    // First setup our 'database'
-    var dir = path.join('/tmp', (options.application || 'localhost'), '/');
-    try {
-        fs.mkdirSync(dir);
-    } catch (e) {
-        if (e.code !== 'EEXIST') {
-            LOG.fatal(e, 'unable to create "database" %s', dir);
-            process.exit(1);
-        }
+  // First setup our 'database'
+  var dir = path.join('/tmp', (options.application || 'localhost'), '/');
+  try {
+    fs.mkdirSync(dir);
+  } catch (e) {
+    if (e.code !== 'EEXIST') {
+      LOG.fatal(e, 'unable to create "database" %s', dir);
+      process.exit(1);
     }
+  }
 
-    options.directory = dir;
-    options.log = LOG;
-    options.port = options.port || 8080;
-    NAME = options.application || NAME;
-    LOG.name = NAME;
+  options.directory = dir;
+  options.log = LOG;
+  options.port = options.port || 8080;
+  NAME = options.application || NAME;
+  LOG.name = NAME;
 
-    var server = vegapi.createServer(options);
+  var db = vegapi.createDb(options);
+  options.db = db;
+  var server = vegapi.createServer(options);
 
-    // At last, let's rock and roll
-    server.listen(options.port, function onListening() {
-        LOG.info('API %s listening at %s', NAME, server.url);
-    });
+  // At last, let's rock and roll
+  server.listen(options.port, function onListening() {
+    LOG.info('API %s listening at %s', NAME, server.url);
+  });
 })();
