@@ -38,10 +38,10 @@ test.create('Request to create new company without content should fail')
   })
   .toss();
 
-test.create('Request to create new company with empty JSON object should succeed')
-  .post(URL + '/', {}, {json: true})
+test.create('Request to create new company with empty=true flag should create a resource with _status="empty')
+  .post(URL + '/?empty=true', {}, {json: true})
   .expectStatus(201)
-  .expectHeaderContains('Location': '/')
+  .expectHeaderContains('Location', '/')
   .expectJSON({
     _data: {},
     _status: "empty"
