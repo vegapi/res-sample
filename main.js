@@ -117,7 +117,7 @@ function usage(msg) {
 (function main() {
   var options = parseOptions();
 
-  LOG.debug(options, 'command line arguments parsed');
+  LOG.info(options, 'command line arguments parsed');
 
   // First setup our 'database'
   var dir = path.join('/tmp', (options.application || 'localhost'), '/');

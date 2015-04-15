@@ -7,16 +7,21 @@
     "assert-plus": "0.1.2",
     "bunyan": "0.21.1",
     "etag": "^1.5.1",
+    "frisby": "^0.8.5",
     "posix-getopt": "1.0.0",
     "restify": "3.0.0",
     "shortid": "^2.1.3"
   },
   "devDependencies": {
-    "nodeunit": "0.8.0"
+    "frisby": "0.8.5"
   },
   "scripts": {
-    "start": "node main.js 2>&1 | bunyan",
-    "test": "nodeunit test"
+    "start": "node main.js -a test -k chave 2>&1 | bunyan",
+    "debug": "node main.js -vv -a test -k chave 2>&1 | bunyan",
+    "test": "jasmine-node spec/*.js",
+    "test-server": "jasmine-node spec/server-spec.js",
+    "test-companies": "jasmine-node spec/companies-spec.js",
+    "test-documents": "jasmine-node spec/documents-spec.js"
   },
   "author": "Pedro Vieira",
   "license": "MIT"
