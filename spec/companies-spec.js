@@ -154,7 +154,7 @@ test.create('Request to create company with valid attributes should succeed')
 
         test.create('Request to read a deleted company should fail')
           .get(URL + comp._id)
-          .expectStatus(404)
+          .expectStatus(410)
           .toss();
 
       })

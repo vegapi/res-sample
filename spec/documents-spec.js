@@ -101,7 +101,7 @@ test.create('Create a company to support document tests')
       .post(URL + '/' + comp._id + '/documents', document3, {json: true})
       .expectStatus(201)
       .expectHeaderContains('Location', comp._id+'/documents/')
-//      .expectJSONTypes(documentJSONType)
+      //.expectJSONTypes(documentJSONType)
       .expectJSON({
         _data: document3._data,
         _status: 'active'
@@ -127,7 +127,7 @@ test.create('Create a company to support document tests')
         test.create('Request to read an active document should succeed')
           .get(URL + doc._id)
           .expectStatus(200)
-//          .expectJSONTypes(documentJSONType)
+          //.expectJSONTypes(documentJSONType)
           .expectJSON({
             _id: doc._id,
             _data: doc._data,
@@ -140,7 +140,7 @@ test.create('Create a company to support document tests')
         test.create('Request to update an active document using valid attributes should succeed')
           .put(URL + doc._id, document4, {json: true})
           .expectStatus(200)
-//          .expectJSONTypes(documentJSONType)
+          //.expectJSONTypes(documentJSONType)
           .expectJSON({
             _id: doc._id,
             _data: document4._data,
@@ -148,7 +148,7 @@ test.create('Create a company to support document tests')
               _self: doc._id,
               _company: comp._id,
               _documents: comp._id + '/documents',
-              _settings: comp._id + '/settings'
+              _payments: comp._id + '/payments'
             }
           })
           .toss();
@@ -171,7 +171,7 @@ test.create('Create a company to support document tests')
 
             test.create('Request to read a deleted document should fail')
               .get(URL + doc._id)
-              .expectStatus(404)
+              .expectStatus(410)
               .toss();
           })
           .toss();

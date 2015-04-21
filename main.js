@@ -14,11 +14,9 @@ var vegapi = require('./lib');
 
 
 ///--- Globals
-
 var NAME = 'vegapi';
 
-// In true UNIX fashion, debug messages go to stderr, and audit records go
-// to stdout, so you can split them as you like in the shell
+// Debug messages go to stderr and audit records go to stdout
 var LOG = bunyan.createLogger({
   name: NAME,
   streams: [
@@ -43,6 +41,7 @@ var LOG = bunyan.createLogger({
   ],
   serializers: restify.bunyan.serializers
 });
+
 
 
 ///--- Helpers
@@ -105,7 +104,7 @@ function usage(msg) {
   }
 
   var str = 'usage: ' +
-    NAME +
+    name +
     ' [-v] [-a application] [-k key] [-p port]';
   console.error(str);
   process.exit(msg ? 1 : 0);
@@ -115,33 +114,40 @@ function usage(msg) {
 ///--- Mainline
 
 (function main() {
+
   var options = parseOptions();
+  options.name = options.application || 'sample';
 
-  LOG.info(options, 'command line arguments parsed');
+  LOG.debug(options, 'command line arguments parsed');
 
-  // First setup our 'database'
-  var dir = path.join('/tmp', (options.application || 'localhost'), '/');
+  // Setup a directory for the database
+  var dir = path.join('/tmp', options.name, '/');
   try {
     fs.mkdirSync(dir);
   } catch (e) {
     if (e.code !== 'EEXIST') {
-      LOG.fatal(e, 'unable to create "database" %s', dir);
-      process.exit(1);
+        LOG.fatal(e, 'unable to create "database" %s', dir);
+        process.exit(1);
     }
   }
+
 
   options.directory = dir;
   options.log = LOG;
   options.port = options.port || 8080;
-  NAME = options.application || NAME;
-  LOG.name = NAME;
 
-  var db = vegapi.createDb(options);
-  options.db = db;
-  var server = vegapi.createServer(options);
+  vegapi.createDb(options, function (err, result) {
+    if (err) {
+      LOG.fatal(err, 'unable to initialize database');
+      process.exit(1);
+    };
+    options.database = result;
 
-  // At last, let's rock and roll
-  server.listen(options.port, function onListening() {
-    LOG.info('API %s listening at %s', NAME, server.url);
+    var server = vegapi.createServer(options);
+
+    // At last, let's rock and roll
+    server.listen(options.port, function onListening() {
+      LOG.info('API %s listening at %s', options.name, server.url);
+    });
   });
 })();
