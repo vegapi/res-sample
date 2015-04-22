@@ -7,6 +7,7 @@ module.exports = {
 		"_date": "2014-07-21",
 		"_entity": {
 			"_id": "/5v4080jn/entities/ygo41pow",
+			"_name": "A Supplier",
 			"_description": "A Supplier, LLC",
 			"_address": "A Street, 125, Room 213\nA Town\nA Location WX1234\nGreat Britain",
 			"_countryCode" : "GB",

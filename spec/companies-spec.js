@@ -103,6 +103,42 @@ test.create('Request to create company with valid attributes should succeed')
         })
     .toss();
 
+    test.create('Request for /?name="My Company" should return a list with company of that name')
+      .get(URL + '/?name=My Company')
+      .expectStatus(200)
+      .expectJSONTypes({
+        _data: [{
+          _name: String,
+          _id: String
+        }],
+        _links: Object
+      })
+      .expectJSON('_data.?', {
+        _name: "My Company",
+        _id: comp._id
+        })
+      .expectJSON({
+        _links: {
+          _self: '/?name=My%20Company'
+        }
+      })
+    .toss();
+
+    test.create('Request for /?name="Other Company" should return an empty list')
+      .get(URL + '/?name=Other Company')
+      .expectStatus(200)
+      .expectJSONTypes({
+        _data: Array,
+        _links: Object
+      })
+      .expectJSON({
+        _data: [],
+        _links: {
+          _self: '/?name=Other%20Company'
+        }
+  })
+    .toss();
+
     test.create('Request to read an active company should succeed')
       .get(URL + comp._id)
       .expectStatus(200)

@@ -108,7 +108,7 @@ test.create('Create a company to support document tests')
       })
       .afterJSON(function (doc) {
 
-        test.create('Request for a company documents should return a list with all its active documents')
+        test.create('Request for company documents should return a list with all its active documents')
           .get(URL + '/' + comp._id + '/documents')
           .expectStatus(200)
           .expectJSONTypes({
@@ -122,6 +122,64 @@ test.create('Create a company to support document tests')
             _name: doc._data._name,
             _id: doc._id
             })
+          .toss();
+
+        test.create('Request for documents filtered by name should return a list with all documents with that name')
+          .get(URL + '/' + comp._id + '/documents?name=FC 2014/227')
+          .expectStatus(200)
+          .expectJSONTypes({
+            _data: [{
+              _name: String,
+              _id: String
+            }],
+            _links: Object
+          })
+          .expectJSON('_data.?', {
+            _name: "FC 2014/227"
+            })
+          .expectJSON({
+            _links: {
+            _self: comp._id + '/documents?name=FC%202014%2F227'
+            }
+          })
+          .toss();
+
+        test.create('Request for documents filtered by entity should return a list with all documents with that entity name')
+          .get(URL + '/' + comp._id + '/documents?entity=A Customer')
+          .expectStatus(200)
+          .expectJSONTypes({
+            _data: [{
+              _name: String,
+              _id: String
+            }],
+            _links: Object
+          })
+          .expectJSON('_data.?', {
+            _name: "FC 2014/227"
+          })
+          .expectJSON({
+            _links: {
+            _self: comp._id + '/documents?entity=A%20Customer'
+            }
+          })
+          .toss();
+
+        test.create('Request for documents filtered by entity should return an empty list if no document exists with that entity name')
+          .get(URL + '/' + comp._id + '/documents?entity=Other Customer')
+          .expectStatus(200)
+          .expectJSONTypes({
+            _data: [{
+              _name: String,
+              _id: String
+            }],
+            _links: Object
+          })
+          .expectJSON({
+            _data: [],
+            _links: {
+              _self: comp._id + '/documents?entity=Other%20Customer'
+            }
+          })
           .toss();
 
         test.create('Request to read an active document should succeed')

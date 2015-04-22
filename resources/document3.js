@@ -17,6 +17,7 @@ module.exports = {
 		],
 		"_entity": {
 			"_id": "/5v4080jn/entities/4xrzy0v5",
+			"_name": "A Customer",
 			"_description": "A Customer, LLC",
 			"_address": "A Street, 125, Room 213\nA Town\nA Location WX1234\nGreat Britain",
 			"_countryCode" : "GB",
