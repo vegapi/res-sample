@@ -18,8 +18,8 @@
     "frisby": "0.8.5"
   },
   "scripts": {
-    "start": "node main.js -a test -k chave 2>&1",
-    "debug": "node main.js -vv -a test -k chave 2>&1",
+    "start": "node main.js -a test -k chave 2>&1 | bunyan",
+    "debug": "node main.js -vv -a test -k chave 2>&1 | bunyan",
     "test": "jasmine-node spec/*.js",
     "test-server": "jasmine-node spec/server-spec.js",
     "test-companies": "jasmine-node spec/companies-spec.js",
