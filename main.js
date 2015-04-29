@@ -140,7 +140,7 @@ function usage(msg) {
     if (err) {
       LOG.fatal(err, 'unable to initialize database');
       process.exit(1);
-    };
+    }
     options.database = result;
 
     var server = vegapi.createServer(options);
