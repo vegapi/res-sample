@@ -3,7 +3,7 @@ module.exports = {
 		"_id": "9erjg6r1",
 		"_name": "Man Polo Shirt",
 		"_description": "Man Polo Shirt - spring 2014",
-		"_productCode": "0885909406586"
+		"_productCode": "0885909406586",
 		"_itemType": "Goods",
 		"_tags": ["Apparel", "Summer"],
 		"_units": [
