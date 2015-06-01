@@ -12,10 +12,10 @@ module.exports = {
 			{"Boxes": 50}
 			],
 		"_inventoryUnit": "Pieces",
-		"_vatRate": "Standard",
-		"_lastModifiedDate": "2014-07-21T10:37:45Z",
-		"_status": "active"
+		"_vatRate": "Standard"
 	},
+	"_lastModifiedDate": "2014-07-21T10:37:45Z",
+	"_status": "active",
 	"_links": {
 		"_self": "/5v4080jn/items/9erjg6r1",
 		"_documents": "/5v4080jn/documents?item=9erjg6r1"
