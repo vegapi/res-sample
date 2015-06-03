@@ -59,13 +59,13 @@ test.create('Request to create company with wrong content-type should fail')
   })
   .toss();
 
-var wrongCompany = {
+var wrongContent = {
   _data: {
     _name: 'thing'
   }
 };
 test.create('Request to create company without required attributes should fail')
-  .post(URL + '/', wrongCompany, {json: true})
+  .post(URL + '/', wrongContent, {json: true})
   .expectStatus(400)
   .expectJSON({
     code: 'InvalidContent'
@@ -148,11 +148,7 @@ test.create('Request to create company with valid attributes should succeed')
 	      _data: company1._data,
         _status: 'active',
         _lastModifiedDate: comp._lastModifiedDate,
-        _links: {
-          _self: comp._id,
-          _documents: comp._id + '/documents',
-          _settings: comp._id + '/settings'
-        }
+        _links: comp._links
       })
       .toss();
 
@@ -164,11 +160,7 @@ test.create('Request to create company with valid attributes should succeed')
         _id: comp._id,
         _data: company2._data,
         _status: 'active',
-        _links: {
-          _self: comp._id,
-          _documents: comp._id + '/documents',
-          _settings: comp._id + '/settings'
-        }
+        _links: comp._links
       })
     .toss();
 

@@ -64,7 +64,7 @@ test.create('Create a company to support user tests')
       .toss();
 
     test.create('Request to create new user with empty=true flag should create a resource with _status=empty')
-      .post(URL + '/?empty=true' + comp._id, {}, {json: true})
+      .post(URL + comp._id + '/users?empty=true', {}, {json: true})
       .expectStatus(201)
       .expectJSON({
         _data: {},
@@ -83,13 +83,13 @@ test.create('Create a company to support user tests')
       })
       .toss();
 
-    var wrongDocument = {
+    var wrongContent = {
       _data: {
         _name: 'thing'
       }
     };
     test.create('Request to create user without required attributes should fail')
-      .post(URL + '/' + comp._id + '/users', wrongDocument, {json: true})
+      .post(URL + '/' + comp._id + '/users', wrongContent, {json: true})
       .expectStatus(400)
       .expectJSON({
         code: 'InvalidContent'
@@ -178,11 +178,8 @@ test.create('Create a company to support user tests')
           .expectJSON({
             _id: usr._id,
             _data: user2._data,
-            _links: {
-              _self: usr._id,
-              _company: comp._id,
-              _profiles: comp._id + '/profiles'
-            }
+            _status: 'active',
+            _links: usr._links
           })
           .toss();
 

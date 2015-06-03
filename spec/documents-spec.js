@@ -14,7 +14,6 @@ test.globalSetup({
   }
 });
 
-// var documentJSONType = require('../resources/documentType');
 var company = require('../resources/company1');
 var document3 = require('../resources/document3');
 var document4 = require('../resources/document4');
@@ -65,7 +64,7 @@ test.create('Create a company to support document tests')
       .toss();
 
     test.create('Request to create new document with empty=true flag should create a resource with _status=empty')
-      .post(URL + '/?empty=true' + comp._id, {}, {json: true})
+      .post(URL + comp._id + 'documents/?empty=true', {}, {json: true})
       .expectStatus(201)
       .expectJSON({
         _data: {},
@@ -84,13 +83,13 @@ test.create('Create a company to support document tests')
       })
       .toss();
 
-    var wrongDocument = {
+    var wrongContent = {
       _data: {
         _name: 'thing'
       }
     };
     test.create('Request to create document without required attributes should fail')
-      .post(URL + '/' + comp._id + '/documents', wrongDocument, {json: true})
+      .post(URL + '/' + comp._id + '/documents', wrongContent, {json: true})
       .expectStatus(400)
       .expectJSON({
         code: 'InvalidContent'
@@ -101,7 +100,6 @@ test.create('Create a company to support document tests')
       .post(URL + '/' + comp._id + '/documents', document3, {json: true})
       .expectStatus(201)
       .expectHeaderContains('Location', comp._id+'/documents/')
-      //.expectJSONTypes(documentJSONType)
       .expectJSON({
         _data: document3._data,
         _status: 'active'
@@ -185,7 +183,6 @@ test.create('Create a company to support document tests')
         test.create('Request to read an active document should succeed')
           .get(URL + doc._id)
           .expectStatus(200)
-          //.expectJSONTypes(documentJSONType)
           .expectJSON({
             _id: doc._id,
             _data: doc._data,
@@ -202,12 +199,7 @@ test.create('Create a company to support document tests')
           .expectJSON({
             _id: doc._id,
             _data: document4._data,
-            _links: {
-              _self: doc._id,
-              _company: comp._id,
-              _documents: comp._id + '/documents',
-              _payments: comp._id + '/payments'
-            }
+            _links: doc._links
           })
           .toss();
 
