@@ -24,7 +24,8 @@
     "test": "jasmine-node spec/*.js",
     "test-server": "jasmine-node spec/server-spec.js",
     "test-companies": "jasmine-node spec/companies-spec.js",
-    "test-documents": "jasmine-node spec/documents-spec.js"
+    "test-documents": "jasmine-node spec/documents-spec.js",
+    "test-users": "jasmine-node spec/users-spec.js"
   },
   "author": "Pedro Vieira",
   "license": "MIT"
