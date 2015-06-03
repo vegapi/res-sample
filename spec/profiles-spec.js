@@ -155,7 +155,7 @@ test.create('Create a company to support profile tests')
           .expectJSON({
             _data: [],
             _links: {
-              _self: comp._id + '/users?name=Abcd'
+              _self: comp._id + '/profiles?name=Abcd'
             }
           })
           .toss();

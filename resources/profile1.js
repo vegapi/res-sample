@@ -1,7 +1,7 @@
 module.exports= {
 	"_data": {
 		"_id": "gs608wca",
-		"_name": "admin",
+		"_name": "Profile1",
 		"_descripton": "Administrator",
 		"_resourceAccess": {
 			"companies": "read-write",

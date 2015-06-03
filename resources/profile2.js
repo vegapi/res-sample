@@ -1,7 +1,7 @@
 module.exports= {
 	"_data": {
 		"_id": "4a3a7bhf",
-		"_name": "toc",
+		"_name": "Profile2",
 		"_descripton": "Certified Accountant",
 		"_resourceAccess": {
 			"companies": "read",
