@@ -22,7 +22,10 @@ var LOG = bunyan.createLogger({
   streams: [
     {
       level: (process.env.LOG_LEVEL || 'info'),
-      stream: process.stderr
+      type:'rotating-file',
+      path: './logs/info.log',
+      period: '1d',
+      count: 3
     },
     {
       // This ensures that if we get a WARN or above all debug records
@@ -35,7 +38,10 @@ var LOG = bunyan.createLogger({
         level: bunyan.WARN,
         maxRecords: 100,
         maxRequestIds: 1000,
-        stream: process.stderr
+        type:'rotating-file',
+        path: './logs/debug.log',
+        period: '1h',
+        count: 3
       })
     }
   ],
@@ -118,7 +124,7 @@ function usage(msg) {
   var options = parseOptions();
   options.name = options.application || 'sample';
 
-  LOG.debug(options, 'command line arguments parsed');
+  LOG.debug({options: options}, 'command line arguments parsed');
 
   // Setup a directory for the database
   var dir = path.join('/tmp', options.name, '/');
