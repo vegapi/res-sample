@@ -19,7 +19,7 @@
   },
   "scripts": {
     "test": "node main.js -a test -k chave &> main.log",
-    "debug": "node main.js -vv -a test -k chave &> main.log",
+    "debug": "LOG_LEVEL='debug' node main.js -a test -k chave &> main.log",
     "sample": "node main.js &> main.log",
     "test-all": "jasmine-node spec/*.js",
     "test-server": "jasmine-node spec/server-spec.js",

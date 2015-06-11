@@ -12,60 +12,17 @@ var restify = require('restify');
 
 var vegapi = require('./lib');
 
-
-///--- Globals
-var NAME = 'vegapi';
-
-// Debug messages go to stderr and audit records go to stdout
-var LOG = bunyan.createLogger({
-  name: NAME,
-  streams: [
-    {
-      level: (process.env.LOG_LEVEL || 'info'),
-      stream: process.stderr
-    },
-    {
-      // This ensures that if we get a WARN or above all debug records
-      // related to that request are spewed to stderr - makes it nice
-      // filter out debug messages in prod, but still dump on user
-      // errors so you can debug problems
-      level: 'debug',
-      type: 'raw',
-      stream: new restify.bunyan.RequestCaptureStream({
-        level: bunyan.WARN,
-        maxRecords: 100,
-        maxRequestIds: 1000,
-        stream: process.stderr
-      })
-    }
-  ],
-  serializers: restify.bunyan.serializers
-});
-
-
-
 ///--- Helpers
 
-/**
- * Standard POSIX getopt-style options parser.
- *
- * Some options, like directory/user/port are pretty cut and dry, but note
- * the 'verbose' or '-v' option afflicts the log level, repeatedly. So you
- * can run something like:
- *
- * node main.js -p 80 -vv 2>&1 | bunyan
- *
- * And the log level will be set to TRACE.
- */
 function parseOptions() {
-  var option;
+  var opt;
   var opts = {};
-  var parser = new getopt.BasicParser('hva:p:k:', process.argv);
+  var parser = new getopt.BasicParser('ha:p:k:l:', process.argv);
 
-  while ((option = parser.getopt()) !== undefined) {
-    switch (option.option) {
+  while ((opt = parser.getopt()) !== undefined) {
+    switch (opt.option) {
       case 'a':
-        opts.application = option.optarg;
+        opts.application = opt.optarg;
         break;
 
       case 'h':
@@ -73,30 +30,25 @@ function parseOptions() {
         break;
 
       case 'p':
-        opts.port = parseInt(option.optarg, 10);
-        break;
-
-      case 'v':
-        // Allows us to set -vvv -> this little hackery
-        // just ensures that we're never < TRACE
-        LOG.level(Math.max(bunyan.TRACE, (LOG.level() - 10)));
-        if (LOG.level() <= bunyan.DEBUG) 
-          LOG = LOG.child({src: true});
+        opts.port = parseInt(opt.optarg, 10);
         break;
 
       case 'k':
-        opts.key = option.optarg;
+        opts.key = opt.optarg;
+        break;
+
+      case 'l':
+        opts.logPath = opt.optarg;
         break;
 
       default:
-        usage('invalid option: ' + option.option);
+        usage('invalid opt: ' + opt.option);
         break;
       }
   }
 
   return (opts);
 }
-
 
 function usage(msg) {
   if (msg) {
@@ -110,6 +62,35 @@ function usage(msg) {
   process.exit(msg ? 1 : 0);
 }
 
+function initLogger(logName, logPath) {
+  // Debug messages go to stderr and audit records go to stdout
+  var log = bunyan.createLogger({
+    name: logName,
+    streams: [
+      {
+        level: (process.env.LOG_LEVEL || 'info'),
+        stream: process.stderr
+      },
+      {
+        // This ensures that if we get a WARN or above all debug records
+        // related to that request are spewed to stderr - makes it nice
+        // filter out debug messages in prod, but still dump on user
+        // errors so you can debug problems
+        level: 'debug',
+        type: 'raw',
+        stream: new restify.bunyan.RequestCaptureStream({
+          level: bunyan.WARN,
+          maxRecords: 100,
+          maxRequestIds: 1000,
+          stream: process.stderr
+        })
+      }
+    ],
+    serializers: restify.bunyan.serializers
+  });
+  return (log);
+}
+
 
 ///--- Mainline
 
@@ -118,7 +99,11 @@ function usage(msg) {
   var options = parseOptions();
   options.name = options.application || 'sample';
 
-  LOG.debug(options, 'command line arguments parsed');
+  var log = initLogger(options.name, options.logPath);
+  log.level(process.env.LOG_LEVEL || 'info');
+  
+  options.log = log;
+  options.port = options.port || 8080;
 
   // Setup a directory for the database
   var dir = path.join('/tmp', options.name, '/');
@@ -126,28 +111,27 @@ function usage(msg) {
     fs.mkdirSync(dir);
   } catch (e) {
     if (e.code !== 'EEXIST') {
-        LOG.fatal(e, 'unable to create "database" %s', dir);
+        log.fatal(e, 'unable to create "database" %s', dir);
         process.exit(1);
     }
   }
-
-
+  
   options.directory = dir;
-  options.log = LOG;
-  options.port = options.port || 8080;
 
   vegapi.createDb(options, function (err, result) {
     if (err) {
-      LOG.fatal(err, 'unable to initialize database');
+      log.fatal(err, 'unable to initialize database');
       process.exit(1);
     }
     options.database = result;
 
     var server = vegapi.createServer(options);
 
+    log.info({options: options}, 'Server created with: ');
+
     // At last, let's rock and roll
     server.listen(options.port, function onListening() {
-      LOG.info('API %s listening at %s', options.name, server.url);
+      log.info('API %s listening at %s', options.name, server.url);
     });
   });
 })();
