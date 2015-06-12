@@ -17,7 +17,7 @@ var vegapi = require('./lib');
 function parseOptions() {
   var opt;
   var opts = {};
-  var parser = new getopt.BasicParser('ha:p:k:l:', process.argv);
+  var parser = new getopt.BasicParser('ha:p:k:d:', process.argv);
 
   while ((opt = parser.getopt()) !== undefined) {
     switch (opt.option) {
@@ -37,8 +37,8 @@ function parseOptions() {
         opts.key = opt.optarg;
         break;
 
-      case 'l':
-        opts.logPath = opt.optarg;
+      case 'd':
+        opts.directory = opt.optarg;
         break;
 
       default:
@@ -57,12 +57,12 @@ function usage(msg) {
 
   var str = 'usage: ' +
     name +
-    ' [-v] [-a application] [-k key] [-p port]';
+    ' [-a application] [-k key] [-p port] [-d path]';
   console.error(str);
   process.exit(msg ? 1 : 0);
 }
 
-function initLogger(logName, logPath) {
+function initLogger(logName) {
   // Debug messages go to stderr and audit records go to stdout
   var log = bunyan.createLogger({
     name: logName,
@@ -98,26 +98,23 @@ function initLogger(logName, logPath) {
 
   var options = parseOptions();
   options.name = options.application || 'sample';
-
-  var log = initLogger(options.name, options.logPath);
-  log.level(process.env.LOG_LEVEL || 'info');
-  
-  options.log = log;
   options.port = options.port || 8080;
 
-  // Setup a directory for the database
-  var dir = path.join('/tmp', options.name, '/');
+  var log = initLogger(options.name);
+  log.level(process.env.LOG_LEVEL || 'info');
+  options.log = log;
+
+  // Setup a directory for this app - database, logs...
+  options.directory = path.join((options.directory || '/tmp'), options.name);
   try {
-    fs.mkdirSync(dir);
+    fs.mkdirSync(options.directory);
   } catch (e) {
     if (e.code !== 'EEXIST') {
-        log.fatal(e, 'unable to create "database" %s', dir);
+        log.fatal(e, 'unable to create directory %s', options.directory);
         process.exit(1);
     }
   }
   
-  options.directory = dir;
-
   vegapi.createDb(options, function (err, result) {
     if (err) {
       log.fatal(err, 'unable to initialize database');
