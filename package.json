@@ -7,6 +7,7 @@
     "assert-plus": "0.1.2",
     "async": "^0.9.0",
     "bunyan": "0.21.1",
+    "bunyan-logentries": "^1.1.2",
     "etag": "^1.5.1",
     "frisby": "^0.8.5",
     "nedb": "^1.1.2",
@@ -18,9 +19,10 @@
     "frisby": "0.8.5"
   },
   "scripts": {
-    "test": "node main.js -a test -k chave &> main.log",
-    "debug": "LOG_LEVEL='debug' node main.js -a test -k chave &> main.log",
-    "sample": "node main.js -d /tmp &> main.log",
+    "local": "node main.js -a local -k chave -l 66af5387-fc88-4d03-b7c4-083a8c05b87b &> main.log",
+    "test": "node main.js -a test -k chave -l 66af5387-fc88-4d03-b7c4-083a8c05b87b &> main.log",
+    "debug": "LOG_LEVEL='debug' node main.js -a test -k chave -l 66af5387-fc88-4d03-b7c4-083a8c05b87b &> main.log",
+    "sample": "node main.js -l 66af5387-fc88-4d03-b7c4-083a8c05b87b &> main.log",
     "test-all": "jasmine-node spec/*.js",
     "test-server": "jasmine-node spec/server-spec.js",
     "test-companies": "jasmine-node spec/companies-spec.js",
