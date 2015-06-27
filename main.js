@@ -7,6 +7,7 @@ var util = require('util');
 
 var assert = require('assert-plus');
 var bunyan = require('bunyan');
+var logentries = require('bunyan-logentries');
 var getopt = require('posix-getopt');
 var restify = require('restify');
 
@@ -17,7 +18,7 @@ var vegapi = require('./lib');
 function parseOptions() {
   var opt;
   var opts = {};
-  var parser = new getopt.BasicParser('ha:p:k:d:', process.argv);
+  var parser = new getopt.BasicParser('ha:p:k:d:l:', process.argv);
 
   while ((opt = parser.getopt()) !== undefined) {
     switch (opt.option) {
@@ -41,6 +42,10 @@ function parseOptions() {
         opts.directory = opt.optarg;
         break;
 
+      case 'l':
+        opts.logToken = opt.optarg;
+        break;
+
       default:
         usage('invalid opt: ' + opt.option);
         break;
@@ -57,19 +62,20 @@ function usage(msg) {
 
   var str = 'usage: ' +
     name +
-    ' [-a application] [-k key] [-p port] [-d path]';
+    ' [-a application] [-k key] [-p port] [-d path] [-l token]';
   console.error(str);
   process.exit(msg ? 1 : 0);
 }
 
-function initLogger(logName) {
+function initLogger(logName, logToken) {
   // Debug messages go to stderr and audit records go to stdout
   var log = bunyan.createLogger({
     name: logName,
     streams: [
       {
         level: (process.env.LOG_LEVEL || 'info'),
-        stream: process.stderr
+        stream: logentries.createStream({token: logToken}),
+        type: 'raw'
       },
       {
         // This ensures that if we get a WARN or above all debug records
@@ -82,7 +88,7 @@ function initLogger(logName) {
           level: bunyan.WARN,
           maxRecords: 100,
           maxRequestIds: 1000,
-          stream: process.stderr
+          stream: logentries.createStream({token: logToken})
         })
       }
     ],
@@ -100,7 +106,7 @@ function initLogger(logName) {
   options.name = options.application || 'sample';
   options.port = options.port || 8080;
 
-  var log = initLogger(options.name);
+  var log = initLogger(options.name, options.logToken);
   log.level(process.env.LOG_LEVEL || 'info');
   options.log = log;
 
