@@ -63,8 +63,8 @@ test.create('Create a company to support document tests')
       })
       .toss();
 
-    test.create('Request to create new document with empty=true flag should create a resource with _status=empty')
-      .post(URL + comp._id + '/documents?empty=true', {}, {json: true})
+    test.create('Request to create new document with an empty body should create a resource with _status=empty')
+      .post(URL + comp._id + '/documents', {}, {json: true})
       .expectStatus(201)
       .expectJSON({
         _data: {},

@@ -63,8 +63,8 @@ test.create('Create a company to support profile tests')
       })
       .toss();
 
-    test.create('Request to create new profile with empty=true flag should create a resource with _status=empty')
-      .post(URL + '/' + comp._id + '/profiles?empty=true', {}, {json: true})
+    test.create('Request to create new profile with an empty body should create a resource with _status=empty')
+      .post(URL + '/' + comp._id + '/profiles', {}, {json: true})
       .expectStatus(201)
       .expectJSON({
         _data: {},
