@@ -1,13 +1,19 @@
 // Test suite for VEGAPI - companies
 //
 var test = require('frisby');
-var URL = 'http://test.vegapi.org:8080';
+var app = process.env.VG_APP;
+var host = (app || 'sample') + '.vegapi.org:' + (parseInt(process.env.VG_PORT, 10) || 8080);
+var URL = 'http://' + host;
+var auth = '';
+if (app) {
+  auth = new Buffer(app + ':' + process.env.VG_KEY).toString('base64');
+}
 
 test.globalSetup({
   request: {
     headers: {
-      'Host': 'test.vegapi.org:8080',
-      'Authorization': 'BASIC dGVzdDpjaGF2ZQ==',
+      'Host': host,
+      'Authorization': 'BASIC ' + auth,
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     }

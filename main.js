@@ -8,72 +8,19 @@ var util = require('util');
 var assert = require('assert-plus');
 var bunyan = require('bunyan');
 var logentries = require('bunyan-logentries');
-var getopt = require('posix-getopt');
 var restify = require('restify');
-
 var vegapi = require('./lib');
+
 
 ///--- Helpers
 
-function parseOptions() {
-  var opt;
-  var opts = {};
-  var parser = new getopt.BasicParser('ha:p:k:d:l:', process.argv);
-
-  while ((opt = parser.getopt()) !== undefined) {
-    switch (opt.option) {
-      case 'a':
-        opts.application = opt.optarg;
-        break;
-
-      case 'h':
-        usage();
-        break;
-
-      case 'p':
-        opts.port = parseInt(opt.optarg, 10);
-        break;
-
-      case 'k':
-        opts.key = opt.optarg;
-        break;
-
-      case 'd':
-        opts.directory = opt.optarg;
-        break;
-
-      case 'l':
-        opts.logToken = opt.optarg;
-        break;
-
-      default:
-        usage('invalid opt: ' + opt.option);
-        break;
-      }
-  }
-
-  return (opts);
-}
-
-function usage(msg) {
-  if (msg) {
-    console.error(msg);
-  }
-
-  var str = 'usage: ' +
-    name +
-    ' [-a application] [-k key] [-p port] [-d path] [-l token]';
-  console.error(str);
-  process.exit(msg ? 1 : 0);
-}
-
-function initLogger(logName, logToken) {
+function initLogger(logName, logToken, logLevel) {
   // Debug messages go to stderr and audit records go to stdout
   var log = bunyan.createLogger({
     name: logName,
     streams: [
       {
-        level: (process.env.LOG_LEVEL || 'info'),
+        level: logLevel,
         stream: logentries.createStream({token: logToken}),
         type: 'raw'
       },
@@ -102,16 +49,20 @@ function initLogger(logName, logToken) {
 
 (function main() {
 
-  var options = parseOptions();
+  var options = {};
+  options.application = process.env.VG_APP;
   options.name = options.application || 'sample';
-  options.port = options.port || 8080;
+  options.key = process.env.VG_KEY;
+  options.host = process.env.VG_HOST || 'vegapi.org';
+  options.port = parseInt(process.env.VG_PORT, 10) || 8080;
+  options.logToken = process.env.VG_LOG_TOKEN;
+  options.logLevel = process.env.VG_LOG_LEVEL || 'info';
 
-  var log = initLogger(options.name, options.logToken);
-  log.level(process.env.LOG_LEVEL || 'info');
+  var log = initLogger(options.name, options.logToken, options.logLevel);
   options.log = log;
 
   // Setup a directory for this app - database, logs...
-  options.directory = path.join((options.directory || '/tmp'), options.name);
+  options.directory = path.join((process.env.VG_DIR || '/tmp'), options.name);
   try {
     fs.mkdirSync(options.directory);
   } catch (e) {
@@ -125,16 +76,17 @@ function initLogger(logName, logToken) {
     if (err) {
       log.fatal(err, 'unable to initialize database');
       process.exit(1);
+    } else {
+      options.database = result;
+
+      var server = vegapi.createServer(options);
+      log.info([options.name, options.host, options.port, options.key, options.directory], 
+        'Server created with: ');
+
+      // At last, let's rock and roll
+      server.listen(options.port, function onListening() {
+        log.info('API %s listening at %s', options.name, server.url);
+      });
     }
-    options.database = result;
-
-    var server = vegapi.createServer(options);
-
-    log.info({options: options}, 'Server created with: ');
-
-    // At last, let's rock and roll
-    server.listen(options.port, function onListening() {
-      log.info('API %s listening at %s', options.name, server.url);
-    });
   });
 })();
