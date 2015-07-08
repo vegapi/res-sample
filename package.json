@@ -1,6 +1,6 @@
 {
   "name": "vegapi",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "A tax and accounting API",
   "main": "main.js",
   "dependencies": {
@@ -19,10 +19,9 @@
     "frisby": "0.8.5"
   },
   "scripts": {
-    "local": "node main.js -a local -k chave -l 66af5387-fc88-4d03-b7c4-083a8c05b87b &> main.log",
-    "test": "node main.js -a test -k chave -l 66af5387-fc88-4d03-b7c4-083a8c05b87b &> main.log",
-    "debug": "LOG_LEVEL='debug' node main.js -a test -k chave -l 66af5387-fc88-4d03-b7c4-083a8c05b87b &> main.log",
-    "sample": "node main.js -l 66af5387-fc88-4d03-b7c4-083a8c05b87b &> main.log",
+    "local": "VG_APP=local VG_KEY=chave VG_LOG_TOKEN=66af5387-fc88-4d03-b7c4-083a8c05b87b node main.js &> main.log",
+    "test": "VG_APP=test VG_KEY=chave VG_LOG_TOKEN=66af5387-fc88-4d03-b7c4-083a8c05b87b node main.js &> main.log",
+    "sample": "VG_LOG_TOKEN=66af5387-fc88-4d03-b7c4-083a8c05b87b node main.js &> main.log",
     "test-all": "jasmine-node spec/*.js",
     "test-server": "jasmine-node spec/server-spec.js",
     "test-companies": "jasmine-node spec/companies-spec.js",
