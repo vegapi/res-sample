@@ -21,9 +21,8 @@ function initLogger(logName, logToken, logLevel) {
     streams: [
       {
         level: logLevel,
-//        stream: logentries.createStream({token: logToken}),
-//        type: 'raw',
-        stream: process.stderr
+        stream: logentries.createStream({token: logToken}),
+        type: 'raw'
       },
       {
         // This ensures that if we get a WARN or above all debug records
@@ -36,8 +35,7 @@ function initLogger(logName, logToken, logLevel) {
           level: bunyan.WARN,
           maxRecords: 100,
           maxRequestIds: 1000,
-//          stream: logentries.createStream({token: logToken})
-          stream: process.stderr
+          stream: logentries.createStream({token: logToken})
         })
       }
     ],
