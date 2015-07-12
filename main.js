@@ -21,8 +21,9 @@ function initLogger(logName, logToken, logLevel) {
     streams: [
       {
         level: logLevel,
-        stream: logentries.createStream({token: logToken}),
-        type: 'raw'
+//        stream: logentries.createStream({token: logToken}),
+//        type: 'raw',
+        stream: process.stderr
       },
       {
         // This ensures that if we get a WARN or above all debug records
@@ -35,7 +36,8 @@ function initLogger(logName, logToken, logLevel) {
           level: bunyan.WARN,
           maxRecords: 100,
           maxRequestIds: 1000,
-          stream: logentries.createStream({token: logToken})
+//          stream: logentries.createStream({token: logToken})
+          stream: process.stderr
         })
       }
     ],
@@ -53,7 +55,6 @@ function initLogger(logName, logToken, logLevel) {
   options.application = process.env.VG_APP;
   options.name = options.application || 'sample';
   options.key = process.env.VG_KEY;
-  options.host = process.env.VG_HOST || 'vegapi.org';
   options.port = parseInt(process.env.VG_PORT, 10) || 8080;
   options.logToken = process.env.VG_LOG_TOKEN;
   options.logLevel = process.env.VG_LOG_LEVEL || 'info';
@@ -61,27 +62,40 @@ function initLogger(logName, logToken, logLevel) {
   var log = initLogger(options.name, options.logToken, options.logLevel);
   options.log = log;
 
-  // Setup a directory for this app - database, logs...
-  options.directory = path.join((process.env.VG_DIR || '/tmp'), options.name);
+  // Setup a file directory for this app - database, logs...
+  options.directory = process.env.VG_DIR || process.cwd();
   try {
-    fs.mkdirSync(options.directory);
+    fs.mkdirSync(path.join(options.directory, 'db'));
   } catch (e) {
     if (e.code !== 'EEXIST') {
-        log.fatal(e, 'unable to create directory %s', options.directory);
+        log.fatal(e, 'Unable to create directory %s', path.join(options.directory, 'db'));
+        process.exit(1);
+    }
+  }
+  
+  try {
+    fs.mkdirSync(path.join(options.directory, 'logs'));
+  } catch (e) {
+    if (e.code !== 'EEXIST') {
+        log.fatal(e, 'Unable to create directory %s', path.join(options.directory, 'logs'));
         process.exit(1);
     }
   }
   
   vegapi.createDb(options, function (err, result) {
     if (err) {
-      log.fatal(err, 'unable to initialize database');
+      log.fatal(err, 'Unable to initialize database');
       process.exit(1);
     } else {
       options.database = result;
 
       var server = vegapi.createServer(options);
-      log.info([options.name, options.host, options.port, options.key, options.directory], 
-        'Server created with: ');
+      log.info('Server created with: ', {
+        name: options.name, 
+        port: options.port, 
+        directory: options.directory, 
+        logLevel: options.logLevel
+      });
 
       // At last, let's rock and roll
       server.listen(options.port, function onListening() {
