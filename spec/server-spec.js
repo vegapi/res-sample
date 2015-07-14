@@ -47,3 +47,25 @@ test.create('Requests for data in formats other than JSON should fail')
     .expectStatus(406)
   .toss();
 
+test.create('Requests for /audit-logs should succeed')
+  .get(URL + '/audit-logs')
+    .expectStatus(200)
+    .expectHeaderContains('Content-Type', 'application/json')
+    .expectJSONTypes({
+      _data: [{
+        _id: String,
+        _lastModifiedDate: String
+      }],
+      _links: {
+        _self: String
+      }
+    })
+  .toss();
+
+test.create('Request for current logfile (audit.log) should succeed')
+  .get(URL + '/audit-logs/audit.log')
+    .expectStatus(200)
+    .expectHeaderContains('Content-Type', 'application/json')
+  .toss();
+
+
