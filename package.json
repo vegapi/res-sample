@@ -25,6 +25,8 @@
     "test-server": "jasmine-node spec/server-spec.js",
     "test-companies": "jasmine-node spec/companies-spec.js",
     "test-documents": "jasmine-node spec/documents-spec.js",
+    "test-entities": "jasmine-node spec/entities-spec.js",
+    "test-items": "jasmine-node spec/items-spec.js",
     "test-users": "jasmine-node spec/users-spec.js",
     "test-profiles": "jasmine-node spec/profiles-spec.js"
   },
