@@ -7,10 +7,10 @@ module.exports = {
 		"_taxNumber": "ABC123456789",
 		"_currency": "GBP",
 		"_tags": ["Grande Retalho"],
-		"_addresses": [
-			{"_main": "A Street, 125, Room 213\nA Town\nA Location WX1234\nGreat Britain"},
-			{"Warehouse": "Second Street, 250\nSome Town\nSome Location WX1234\nGreat Britain"}
-			],
+		"_addresses": {
+			"_main": "A Street, 125, Room 213\nA Town\nA Location WX1234\nGreat Britain",
+			"Warehouse": "Second Street, 250\nSome Town\nSome Location WX1234\nGreat Britain"
+		},
 		"_lastModifiedDate": "2014-07-21T10:37:45Z",
 		"_status": "active"
 	},

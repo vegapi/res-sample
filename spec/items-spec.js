@@ -143,7 +143,7 @@ test.create('Create a company to support item tests')
             })
           .expectJSON({
             _links: {
-            _self: comp._id + '/items?name=' + itm._data._name
+            _self: comp._id + '/items?name=' + encodeURI(itm._data._name)
             }
           })
           .toss();
@@ -163,7 +163,7 @@ test.create('Create a company to support item tests')
           })
           .expectJSON({
             _links: {
-            _self: comp._id + '/items?tag=' + itm._data._tags[0]
+            _self: comp._id + '/items?tag=' + encodeURI(itm._data._tags[0])
             }
           })
           .toss();
@@ -199,7 +199,7 @@ test.create('Create a company to support item tests')
           .toss();
 
         test.create('Request to update an active item using valid attributes should succeed')
-          .put(URL + doc._id, item2, {json: true})
+          .put(URL + itm._id, item2, {json: true})
           .expectStatus(200)
           //.expectJSONTypes(documentJSONType)
           .expectJSON({

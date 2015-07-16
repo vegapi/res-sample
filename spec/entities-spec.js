@@ -143,7 +143,7 @@ test.create('Create a company to support entity tests')
             })
           .expectJSON({
             _links: {
-            _self: comp._id + '/entities?name=' + ent._data._name
+            _self: comp._id + '/entities?name=' + encodeURI(ent._data._name)
             }
           })
           .toss();
@@ -163,7 +163,7 @@ test.create('Create a company to support entity tests')
           })
           .expectJSON({
             _links: {
-            _self: comp._id + '/entities?tag=' + ent._data._tags[0]
+            _self: comp._id + '/entities?tag=' + encodeURI(ent._data._tags[0])
             }
           })
           .toss();
@@ -199,7 +199,7 @@ test.create('Create a company to support entity tests')
           .toss();
 
         test.create('Request to update an active entity using valid attributes should succeed')
-          .put(URL + doc._id, entity2, {json: true})
+          .put(URL + ent._id, entity2, {json: true})
           .expectStatus(200)
           //.expectJSONTypes(documentJSONType)
           .expectJSON({
