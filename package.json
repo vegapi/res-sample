@@ -21,6 +21,7 @@
     "local": "VG_APP=local VG_KEY=chave VG_LOG_TOKEN=66af5387-fc88-4d03-b7c4-083a8c05b87b node main.js &> main.log",
     "test": "VG_APP=test VG_KEY=chave VG_LOG_TOKEN=66af5387-fc88-4d03-b7c4-083a8c05b87b node main.js &> main.log",
     "sample": "VG_LOG_TOKEN=66af5387-fc88-4d03-b7c4-083a8c05b87b node main.js &> main.log",
+	"aaguiar": "VG_APP=aaguiar VG_KEY=patacho VG_LOG_TOKEN=66af5387-fc88-4d03-b7c4-083a8c05b87b node main.js &> main.log",
     "test-all": "jasmine-node spec/*.js",
     "test-server": "jasmine-node spec/server-spec.js",
     "test-companies": "jasmine-node spec/companies-spec.js",
