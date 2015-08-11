@@ -88,16 +88,11 @@ function initLogger(logName, logToken, logLevel) {
       options.database = result;
 
       var server = vegapi.createServer(options);
-      log.info('Server created with: ', {
-        name: options.name, 
-        port: options.port, 
-        directory: options.directory, 
-        logLevel: options.logLevel
-      });
 
       // At last, let's rock and roll
       server.listen(options.port, function onListening() {
-        log.info('API %s listening at %s', options.name, server.url);
+        log.info('API %s listening at %s. Log level is %s. Directory is %s.', 
+                  options.name, server.url, options.logLevel, options.directory);
       });
     }
   });
